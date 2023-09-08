@@ -1,4 +1,6 @@
-const errorHandler = (err, req, res, next) => {
+import { Request, Response, NextFunction } from 'express'; 
+
+const errorHandler = (err:any, req: Request, res:Response, next:NextFunction) => {
     switch (err.name){
         case "Unauthorized":
             res.status(401).json({message:err.message})
@@ -19,8 +21,8 @@ const errorHandler = (err, req, res, next) => {
             res.status(500).json({message: err.message})
             break
         case "SequelizeValidationError":
-            let error = []
-            err.errors.forEach((el)=>{
+            let error:any = []
+            err.errors.forEach((el:any)=>{
                 error.push(el.message)
             })
             res.status(400).json({error})

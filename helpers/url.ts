@@ -1,4 +1,4 @@
-function addParameter(url, parameters) {
+function addParameter(url:string, parameters:any) {
     const separator = url.includes('?') ? '&' : '?';
     const parameterString = Object.keys(parameters)
     .map(param => `${param}=${parameters[param]}`)

@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+const express = require ('express');
 import { UserController } from './controllers/userController' 
 // import  authentication  from './middlewares/authentication'
 
@@ -9,7 +9,7 @@ dotenv.config()
 // const errorHandler = require("./middlewares/errorHandler")
 const cors = require('cors')
 
-const app:Express = express();
+const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(cors())

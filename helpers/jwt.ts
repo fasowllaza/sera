@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken")
 
-function sign(payload){
+function sign(payload:any){
     return jwt.sign(payload, "dans")
 }
 
-function verify(token){
+function verify(token:any){
     return jwt.verify(token, "dans")
 }
 

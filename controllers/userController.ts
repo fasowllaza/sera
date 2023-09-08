@@ -1,7 +1,8 @@
-import { Request, Response, NextFunction } from 'express'; // Assuming you're using Express
+import { Request, Response, NextFunction } from 'express'; 
 const {User} = require("../models")
 const {decode, encode} = require("../helpers/bcrypt")
 const {sign} = require("../helpers/jwt")
+import amqp from 'amqplib';
 
 export class UserController {
   static async registerUser(req: Request, res: Response, next: NextFunction) {
@@ -12,8 +13,19 @@ export class UserController {
         email: req.body.email
       };
       userData.password = encode(userData.password);
-
       const data = await User.create(userData);
+      const connection = await amqp.connect('amqp://localhost');
+      const channel = await connection.createChannel();
+      const queue = 'email-queue'
+      await channel.assertQueue(queue, { durable: true });
+      const emailData = JSON.stringify({ 
+        to: userData.email, 
+        subject: 'test', 
+        text: 'test'
+      });
+      channel.sendToQueue(queue, Buffer.from(emailData), { persistent: true });
+
+      console.log('Message sent to RabbitMQ:', emailData);
 
       res.status(201).json({
         name: data.name,
