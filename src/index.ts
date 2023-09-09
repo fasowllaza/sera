@@ -1,5 +1,5 @@
 const express = require ('express');
-import { UserController } from './controllers/userController' 
+const UserController = require ('./controllers/userController') 
 // import  authentication  from './middlewares/authentication'
 
 import dotenv from 'dotenv';
@@ -24,6 +24,6 @@ app.get("/", UserController.getAccount)
 
 // app.use(errorHandler)
 
-app.listen(port, ()=>{
-    console.log(`Listening Port ${port}`);
-})
+
+
+module.exports = app

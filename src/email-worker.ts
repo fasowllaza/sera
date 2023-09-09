@@ -22,7 +22,7 @@ async function main() {
         }
       });
 
-      let mailOptions = {
+      const mailOptions = {
         from: 'noe.waelchi38@ethereal.email',
         to: 'saya@yopmail.com',
         subject: 'Test',

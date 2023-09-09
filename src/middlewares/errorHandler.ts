@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express'; 
+import { Request, Response, NextFunction } from 'express';
 
 const errorHandler = (err:any, req: Request, res:Response, next:NextFunction) => {
     switch (err.name){
@@ -21,7 +21,7 @@ const errorHandler = (err:any, req: Request, res:Response, next:NextFunction) =>
             res.status(500).json({message: err.message})
             break
         case "SequelizeValidationError":
-            let error:any = []
+            const error:any = []
             err.errors.forEach((el:any)=>{
                 error.push(el.message)
             })
@@ -33,7 +33,7 @@ const errorHandler = (err:any, req: Request, res:Response, next:NextFunction) =>
         default:
             console.log(err);
             res.status(500).json({message: "Something went wrong"})
-            break 
+            break
     }
 }
 

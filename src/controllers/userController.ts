@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from 'express'; 
+import { Request, Response, NextFunction } from 'express';
 const {User} = require("../models")
 const {decode, encode} = require("../helpers/bcrypt")
 const {sign} = require("../helpers/jwt")
 import amqp from 'amqplib';
 
-export class UserController {
+class UserController {
   static async registerUser(req: Request, res: Response, next: NextFunction) {
     try {
       const userData = {
@@ -18,9 +18,9 @@ export class UserController {
       const channel = await connection.createChannel();
       const queue = 'email-queue'
       await channel.assertQueue(queue, { durable: true });
-      const emailData = JSON.stringify({ 
-        to: userData.email, 
-        subject: 'test', 
+      const emailData = JSON.stringify({
+        to: userData.email,
+        subject: 'test',
         text: 'test'
       });
       channel.sendToQueue(queue, Buffer.from(emailData), { persistent: true });
@@ -82,7 +82,7 @@ export class UserController {
         where: {
           username: userData.username
         }
-      }) 
+      })
 
       if(data) {
         if(decode(userData.oldPassword, data.password)) {
@@ -96,7 +96,7 @@ export class UserController {
           if (rowsUpdated === 0) {
             return res.status(404).json({ error: 'User not found' });
           }
-      
+
           res.status(200).json(updateData);
         }
       }
@@ -110,9 +110,9 @@ export class UserController {
       const username = req.body.username
       const deletedUser = await User.destroy({
         where: {
-          username: username
+          username
         }
-      }) 
+      })
       console.log(deletedUser)
       if(deletedUser === 0) {
         res.status(404).json({
@@ -123,7 +123,7 @@ export class UserController {
         message: 'data deleted'
       })
     } catch(err:any) {
-        
+
     }
   }
   static async getAccount (req: Request, res: Response, next: NextFunction) {
@@ -136,3 +136,4 @@ export class UserController {
   }
 }
 
+module.exports = UserController

@@ -11,7 +11,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
      */
     static associate(models:any) {
       // define association here
-    } 
+    }
   }
   User.init({
     username: DataTypes.STRING,

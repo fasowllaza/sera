@@ -7,7 +7,7 @@ const authentication = (req: any, res: Response, next: NextFunction) => {
         next({name: "Unauthorized", message: "Login First"})
     }
     else{
-        let decoded = verify(req.headers.access_token)
+        const decoded = verify(req.headers.access_token)
         req.user = {
             id: decoded.id,
             username: decoded.username
